@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:makemywindoor_admin/component/header.dart';
 import 'package:makemywindoor_admin/component/infoCard.dart';
 import 'package:makemywindoor_admin/component/todayOrders.dart';
 import 'package:makemywindoor_admin/config/size_config.dart';
 import 'package:makemywindoor_admin/home.dart';
+import 'package:makemywindoor_admin/services/project_service.dart';
 import 'package:makemywindoor_admin/style/colors.dart';
 import 'package:makemywindoor_admin/style/style.dart';
-
-import 'historyTable.dart';
+import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key? key}) : super(key: key);
@@ -42,32 +43,32 @@ class _DashboardState extends State<Dashboard> {
                     children: [
                       InfoCard(
                           icon: 'assets/imgs/create_product.png',
-                          label: 'Create\nProducts',
+                          label: 'Create Products',
                           amount: '\1200',
                           onpressedFun: () {
                             navigateToFun(context, 'createProduct');
                           }),
                       InfoCard(
                           icon: 'assets/imgs/my_products.png',
-                          label: 'My \nProducts',
+                          label: 'My Products',
                           amount: '\1500',
                           onpressedFun: () {
-                            navigateToFun(context, 'createProduct');
+                            navigateToFun(context, 'myProducts');
                           }),
                       InfoCard(
                           icon: 'assets/imgs/orders.png',
-                          label: 'Customer\nOrders',
+                          label: 'Customer Orders',
                           amount: '\150',
                           onpressedFun: () {
-                            navigateToFun(context, 'createProduct');
+                            navigateToFun(context, 'orders');
                           }),
-                      InfoCard(
-                          icon: 'assets/imgs/orders.png',
-                          label: 'Others \n',
-                          amount: '\1500',
-                          onpressedFun: () {
-                            navigateToFun(context, 'createProduct');
-                          }),
+                      // InfoCard(
+                      //     icon: 'assets/imgs/orders.png',
+                      //     label: 'Others',
+                      //     amount: '\1500',
+                      //     onpressedFun: () {
+                      //       navigateToFun(context, 'orders');
+                      //     }),
                     ],
                   ),
                 ),
@@ -87,8 +88,19 @@ class _DashboardState extends State<Dashboard> {
                           fontWeight: FontWeight.w400,
                           color: AppColors.secondary,
                         ),
-                        PrimaryText(
-                            text: '3', size: 30, fontWeight: FontWeight.w800),
+                        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                            stream: Provider.of<ProjectServices>(context)
+                                .getTodaysProjects(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData)
+                                return PrimaryText(
+                                    text: snapshot.data!.docs.length.toString(),
+                                    size: 30,
+                                    fontWeight: FontWeight.w800);
+                              else {
+                                return CircularProgressIndicator();
+                              }
+                            }),
                       ],
                     ),
                     // PrimaryText(
@@ -108,23 +120,23 @@ class _DashboardState extends State<Dashboard> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical! * 5,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    PrimaryText(
-                        text: 'History', size: 30, fontWeight: FontWeight.w800),
-                    PrimaryText(
-                      text: 'Transaction of lat 6 month',
-                      size: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.secondary,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical! * 3,
-                ),
-                HistoryTable(),
+                // Column(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     PrimaryText(
+                //         text: 'History', size: 30, fontWeight: FontWeight.w800),
+                //     PrimaryText(
+                //       text: 'Transaction of lat 6 month',
+                //       size: 16,
+                //       fontWeight: FontWeight.w400,
+                //       color: AppColors.secondary,
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: SizeConfig.blockSizeVertical! * 3,
+                // ),
+                // HistoryTable(),
                 // if (!Responsive.isDesktop(context)) PaymentDetailList()
               ],
             ),

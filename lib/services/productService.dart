@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ProductService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  postProduct(Map<String, dynamic> json) {
+  Future<void> postProduct(Map<String, dynamic> json) {
     log('post products===========in function');
     log('postProduct =============' + json.toString());
     log('pImageURL =============' + json['pImageURL'].toString());
@@ -13,10 +13,14 @@ class ProductService {
     log('pName =============' + json['pName'].toString());
     log('pDescription =============' + json['pDescription'].toString());
     log('pPrice =============' + json['pPrice'].toString());
-    _firestore.collection('products').doc(json['pProductId']).set(json);
+    return _firestore.collection('products').doc(json['pProductId']).set(json);
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getProduct() async {
-    return await _firestore.collection('products').get();
+  Stream<QuerySnapshot<Map<String, dynamic>>> getProduct() {
+    return _firestore.collection('products').snapshots();
+  }
+
+  Future<void> deleteProduct(String productId) {
+    return _firestore.collection('products').doc(productId).delete();
   }
 }

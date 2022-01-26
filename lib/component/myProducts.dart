@@ -20,8 +20,8 @@ class _MyProductsState extends State<MyProducts> {
     return Home(
       Expanded(
         flex: 10,
-        child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            future: context.read<ProductService>().getProduct(),
+        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: context.read<ProductService>().getProduct(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return DataTable(
@@ -36,7 +36,7 @@ class _MyProductsState extends State<MyProducts> {
                       DataColumn(label: Text('Delete'))
                     ],
                     rows: snapshot.data!.docs.map((e) {
-                      Product p = Product.fromJson(e.data());
+                      Product p = Product.fromMap(e.data());
                       return DataRow(cells: [
                         DataCell(Container(
                           margin: EdgeInsets.all(10),
@@ -45,16 +45,16 @@ class _MyProductsState extends State<MyProducts> {
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                   image: NetworkImage(
-                                    p.pImageURL!,
+                                    p.pImageURL,
                                   ),
                                   fit: BoxFit.cover),
-                              color: Colors.red,
+                              color: Colors.grey[200],
                               shape: BoxShape.circle),
                         )),
-                        DataCell(Text(p.pName!)),
-                        DataCell(Text(p.pDescription!)),
-                        DataCell(Text(p.pType!)),
-                        DataCell(Text('₹ ' + p.pPrice!)),
+                        DataCell(Text(p.pName)),
+                        DataCell(Text(p.pDescription)),
+                        DataCell(Text(p.pType)),
+                        DataCell(Text('₹ ' + p.pPrice)),
                         DataCell(IconButton(
                           splashRadius: 25,
                           onPressed: () {},
@@ -65,7 +65,60 @@ class _MyProductsState extends State<MyProducts> {
                         )),
                         DataCell(IconButton(
                           splashRadius: 25,
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (innerContext) {
+                                  return AlertDialog(
+                                    title: Text('Are you sure?'),
+                                    content: Text(
+                                        'Do you want to delete this product?'),
+                                    actions: [
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () {
+                                          Navigator.pop(innerContext);
+                                          showDialog(
+                                              context: context,
+                                              builder: (childContext) {
+                                                return AlertDialog(
+                                                  title: Text('Deleting ...'),
+                                                  content: Container(
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Center(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                            'deleteing product ...')
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              });
+                                          context
+                                              .read<ProductService>()
+                                              .deleteProduct(p.pProductId)
+                                              .then((value) =>
+                                                  Navigator.pop(context));
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text('No'),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          },
                           icon: Icon(
                             LineIcons.trash,
                             color: Colors.red,

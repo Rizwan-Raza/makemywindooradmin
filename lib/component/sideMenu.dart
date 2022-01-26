@@ -71,7 +71,7 @@ class SideMenu extends StatelessWidget {
                     color: AppColors.iconGray,
                   ),
                   onPressed: () {
-                    navigateToFunSideMenu(context, 'createProduct');
+                    navigateToFunSideMenu(context, 'orders');
                   }),
             ],
           ),

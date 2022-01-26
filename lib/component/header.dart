@@ -29,26 +29,26 @@ class Header extends StatelessWidget {
       Spacer(
         flex: 1,
       ),
-      Expanded(
-        flex: Responsive.isDesktop(context) ? 1 : 3,
-        child: TextField(
-          decoration: InputDecoration(
-              filled: true,
-              fillColor: AppColors.white,
-              contentPadding: EdgeInsets.only(left: 40.0, right: 5),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: AppColors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: AppColors.white),
-              ),
-              prefixIcon: Icon(Icons.search, color: AppColors.black),
-              hintText: 'Search',
-              hintStyle: TextStyle(color: AppColors.secondary, fontSize: 14)),
-        ),
-      ),
+      // Expanded(
+      //   flex: Responsive.isDesktop(context) ? 1 : 3,
+      //   child: TextField(
+      //     decoration: InputDecoration(
+      //         filled: true,
+      //         fillColor: AppColors.white,
+      //         contentPadding: EdgeInsets.only(left: 40.0, right: 5),
+      //         enabledBorder: OutlineInputBorder(
+      //           borderRadius: BorderRadius.circular(30),
+      //           borderSide: BorderSide(color: AppColors.white),
+      //         ),
+      //         focusedBorder: OutlineInputBorder(
+      //           borderRadius: BorderRadius.circular(30),
+      //           borderSide: BorderSide(color: AppColors.white),
+      //         ),
+      //         prefixIcon: Icon(Icons.search, color: AppColors.black),
+      //         hintText: 'Search',
+      //         hintStyle: TextStyle(color: AppColors.secondary, fontSize: 14)),
+      //   ),
+      // ),
     ]);
   }
 }

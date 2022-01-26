@@ -37,10 +37,6 @@ dependencies:
   cloud_firestore: ^3.1.6
   firebase_storage: ^10.2.5
   image_picker_web: ^2.1.0
-  firebase: ^9.0.2
-  path: any
-  mime_type: ^1.0.0
-  
 
 
 dev_dependencies:

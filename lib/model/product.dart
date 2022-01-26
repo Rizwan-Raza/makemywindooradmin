@@ -1,44 +1,55 @@
 class Product {
-  String? pImageURL, pName, pDescription, pType, pPrice, pProductId;
+  String pName;
+  String pPrice;
+  String pDescription;
+  String pImageURL;
+  String pProductId;
+  String pType;
 
-  factory Product.empty() => Product(
-      pImageURL: "",
-      pName: "",
-      pDescription: "",
-      pType: "",
-      pPrice: "",
-      pProductId: "");
-  Product(
-      {this.pImageURL,
-      this.pName,
-      this.pDescription,
-      this.pType,
-      this.pPrice,
-      this.pProductId});
-  Map<String, dynamic> toJson() {
+  Product({
+    required this.pName,
+    required this.pPrice,
+    required this.pDescription,
+    required this.pImageURL,
+    required this.pProductId,
+    required this.pType,
+  });
+
+  factory Product.empty() {
+    return Product(
+      pName: '',
+      pPrice: '',
+      pDescription: '',
+      pImageURL: '',
+      pProductId: '',
+      pType: '',
+    );
+  }
+
+  Map<String, dynamic> toMap() {
     return {
-      'pImageURL': pImageURL,
       'pName': pName,
-      'pDescription': pDescription,
-      'pType': pType,
       'pPrice': pPrice,
+      'pDescription': pDescription,
+      'pImageURL': pImageURL,
       'pProductId': pProductId,
+      'pType': pType,
     };
+  }
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      pName: map['pName'],
+      pPrice: map['pPrice'],
+      pDescription: map['pDescription'],
+      pImageURL: map['pImageURL'],
+      pProductId: map['pProductId'],
+      pType: map['pType'],
+    );
   }
 
   @override
   String toString() {
-    return 'Product{pImageURL: $pImageURL, pName: $pName, pDescription: $pDescription, pType:$pType, pPrice: $pPrice,pProductId:$pProductId}';
-  }
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      pImageURL: json['pImageURL'],
-      pName: json['pName'],
-      pDescription: json['pDescription'],
-      pType: json['pType'],
-      pPrice: json['pPrice'],
-      pProductId: json['pProductId'],
-    );
+    return 'Product{pName: $pName, pPrice: $pPrice, pDescription: $pDescription, pImageURL: $pImageURL, pProductId: $pProductId, pType: $pType}';
   }
 }

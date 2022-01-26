@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
-import 'package:firebase/firebase.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:line_icons/line_icons.dart';
@@ -10,8 +10,6 @@ import 'package:makemywindoor_admin/config/size_config.dart';
 import 'package:makemywindoor_admin/home.dart';
 import 'package:makemywindoor_admin/model/product.dart';
 import 'package:makemywindoor_admin/services/productService.dart';
-import 'package:mime_type/mime_type.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class CreateProduct extends StatefulWidget {
@@ -26,14 +24,13 @@ class _CreateProductState extends State<CreateProduct> {
   Product? product;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     product = new Product.empty();
   }
 
   int _isChecked = -1;
-  List<String> productType = ["Door", "Window", "Others"];
-  String _currText = '';
+  List<String> productType = ["Aluminium", "UPVC", "Glass"];
+  // String _currText = '';
   @override
   Widget build(BuildContext context) {
     return Home(
@@ -120,11 +117,29 @@ class _CreateProductState extends State<CreateProduct> {
                                   product!.pType = productType[_isChecked];
 
                                   if (mediaInfoGlobal != null) {
-                                    uploadFile(
-                                        mediaInfoGlobal!,
-                                        'gs://make-my-windoor.appspot.com',
-                                        product!.pProductId!,
-                                        product!.pType!,
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text('Creating Product'),
+                                            content: Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text('Please wait'),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                    uploadFile(mediaInfoGlobal!, product!.pType,
                                         context);
                                   } else {
                                     ScaffoldMessenger.of(context)
@@ -248,31 +263,41 @@ class _CreateProductState extends State<CreateProduct> {
   }
 
   //Getting Downloaded URI directly
-  uploadFile(MediaInfo mediaInfo, String ref, String fileName,
-      String productType, BuildContext context) {
+  uploadFile(MediaInfo mediaInfo, String productType, BuildContext context) {
     try {
-      String? mimeType = mime(basename(mediaInfo.fileName!));
-      var metaData = UploadMetadata(contentType: mimeType);
-      log('firestore path=======' + ref);
+      // String? mimeType = mime(basename(mediaInfo.fileName!));
+      // var metaData = UploadMetadata(contentType: mimeType);
+      // log('firestore path=======' + mediaInfo.fileName!);
       // var finalStorageURL = ref + '/' + productType;
       // log('path=======llll' + finalStorageURL.toString());
-      StorageReference storageReference =
-          storage().refFromURL(ref).child(productType).child(fileName);
+      Reference storageReference =
+          FirebaseStorage.instance.ref(productType).child(mediaInfo.fileName!);
 
-      UploadTask uploadTask = storageReference.put(mediaInfo.data, metaData);
-      var imageUri;
-      uploadTask.future.then((snapshot) => {
-            Future.delayed(Duration(seconds: 1)).then((value) => {
-                  snapshot.ref.getDownloadURL().then((Uri uri) {
-                    imageUri = uri;
-                    product!.pImageURL = imageUri.toString();
-                    ProductService productService =
-                        Provider.of<ProductService>(context, listen: false);
-                    productService.postProduct(product!.toJson());
-                    log('Download URL: ${imageUri.toString()}');
-                  })
-                })
-          });
+      storageReference
+          .putData(mediaInfo.data!, SettableMetadata(contentType: "image/png"))
+          .then((snapshot) => {
+                Future.delayed(Duration(seconds: 1)).then((value) => {
+                      snapshot.ref.getDownloadURL().then((uri) {
+                        // imageUri = uri;
+                        // product!.pImageURL = imageUri.toString();
+                        product!.pImageURL = uri;
+                        ProductService productService =
+                            Provider.of<ProductService>(context, listen: false);
+                        productService
+                            .postProduct(product!.toMap())
+                            .then((value) {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Product Created Successfully'),
+                            backgroundColor: Colors.green,
+                          ));
+                          createProductKey.currentState!.reset();
+                          _isChecked = -1;
+                        });
+                        // log('Download URL: ${imageUri.toString()}');
+                      })
+                    })
+              });
     } catch (e) {
       print('File Upload Error: $e');
     }
@@ -311,7 +336,7 @@ class _CreateProductState extends State<CreateProduct> {
         product!.pPrice = value;
 
         product!.pProductId =
-            product!.pName! + "_" + math.Random().nextInt(500000).toString();
+            product!.pName + "_" + math.Random().nextInt(500000).toString();
         break;
     }
   }

@@ -9,6 +9,7 @@ import 'package:makemywindoor_admin/component/myProducts.dart';
 import 'package:makemywindoor_admin/firebase_options.dart';
 import 'package:makemywindoor_admin/services/auth.dart';
 import 'package:makemywindoor_admin/services/productService.dart';
+import 'package:makemywindoor_admin/services/project_service.dart';
 import 'package:makemywindoor_admin/style/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        Provider(create: (_) => ProjectServices()),
         Provider(create: (_) => ProductService()),
         Provider<Login>(create: (_) => Login())
       ],

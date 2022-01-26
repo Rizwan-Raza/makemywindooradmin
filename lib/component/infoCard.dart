@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:makemywindoor_admin/config/responsive.dart';
 import 'package:makemywindoor_admin/config/size_config.dart';
 import 'package:makemywindoor_admin/style/colors.dart';
@@ -19,40 +18,41 @@ class InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Type type = (SizeConfig.screenWidth! > 640 ? Row : Column);
     return GestureDetector(
       onTap: () {
         onpressedFun();
       },
       child: Container(
+        width: SizeConfig.screenWidth! * 0.225,
         constraints: BoxConstraints(
             minWidth: Responsive.isDesktop(context)
                 ? 200
                 : SizeConfig.screenWidth! / 2 - 40),
-        padding: EdgeInsets.only(
-            top: 20,
-            bottom: 20,
-            left: 20,
-            right: Responsive.isMobile(context) ? 20 : 40),
+        padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: AppColors.white,
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // direction:
+          //     (SizeConfig.screenWidth! < 640 ? Axis.horizontal : Axis.vertical),
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(icon, width: 50),
             SizedBox(
+              width: SizeConfig.blockSizeHorizontal! * 2,
               height: SizeConfig.blockSizeVertical! * 2,
             ),
             PrimaryText(text: label, color: AppColors.secondary, size: 16),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
-            ),
-            PrimaryText(
-              text: amount,
-              size: 18,
-              fontWeight: FontWeight.w700,
-            )
+            // SizedBox(
+            //   height: SizeConfig.blockSizeVertical! * 2,
+            // ),
+            // PrimaryText(
+            //   text: amount,
+            //   size: 18,
+            //   fontWeight: FontWeight.w700,
+            // )
           ],
         ),
       ),

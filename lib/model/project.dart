@@ -1,5 +1,6 @@
 import 'package:makemywindoor_admin/model/project_details.dart';
 import 'package:makemywindoor_admin/model/project_dimens.dart';
+import 'package:makemywindoor_admin/model/user.dart';
 
 class Project {
   String projectID;
@@ -8,7 +9,8 @@ class Project {
   int totalCost;
   double totalCharge;
   DateTime createdOn;
-  String createdBy;
+  User createdBy;
+  String status;
 
   Project(
       {required this.projectID,
@@ -17,7 +19,8 @@ class Project {
       required this.totalCost,
       required this.totalCharge,
       required this.createdOn,
-      required this.createdBy});
+      required this.createdBy,
+      required this.status});
 
   factory Project.empty() {
     return Project(
@@ -27,7 +30,8 @@ class Project {
         totalCost: 0,
         totalCharge: 0.0,
         createdOn: DateTime.now(),
-        createdBy: "");
+        createdBy: User.empty(),
+        status: '');
   }
 
   factory Project.fromMap(Map<String, dynamic> map) {
@@ -41,7 +45,8 @@ class Project {
         totalCost: map['totalCost'],
         totalCharge: map['totalCharge'] as double,
         createdOn: DateTime.parse(map['createdOn']),
-        createdBy: map['createdBy']);
+        createdBy: User.fromMap(map['createdBy']),
+        status: map['status']);
   }
 
   Map<String, dynamic> toMap() {
@@ -54,12 +59,13 @@ class Project {
       'totalCost': totalCost,
       'totalCharge': totalCharge,
       'createdOn': createdOn.toIso8601String(),
-      'createdBy': createdBy
+      'createdBy': createdBy.toMap(),
+      'status': status
     };
   }
 
   @override
   String toString() {
-    return 'Project{projectID: $projectID, projectDetails: $projectDetails, projectDimensions: $projectDimensions, totalCost: $totalCost, totalCharge: $totalCharge, createdOn: $createdOn, createdBy: $createdBy}';
+    return 'Project{projectID: $projectID, projectDetails: $projectDetails, projectDimensions: $projectDimensions, totalCost: $totalCost, totalCharge: $totalCharge, createdOn: $createdOn, createdBy: $createdBy, status: $status}';
   }
 }
