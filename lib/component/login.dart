@@ -129,38 +129,66 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(20.0),
                                   child: ElevatedButton(
-                                      onPressed: () async {
+                                      onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           _formKey.currentState!.save();
                                         } else {
                                           return;
                                         }
-                                        if (await loginBloc.login(
-                                            username, password)) {
-                                          Navigator.pushReplacementNamed(
-                                              context, "/dashboard");
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showMaterialBanner(
-                                                  MaterialBanner(
-                                            backgroundColor: Colors.yellow[100],
-                                            actions: [
-                                              TextButton(
-                                                child: Text("Close"),
-                                                onPressed: () {
-                                                  ScaffoldMessenger.of(context)
-                                                      .clearMaterialBanners();
-                                                },
-                                              )
-                                            ],
-                                            content:
-                                                Text("Authetication Failed"),
-                                          ));
-                                          Future.delayed(
-                                              const Duration(seconds: 5),
-                                              ScaffoldMessenger.of(context)
-                                                  .clearMaterialBanners);
-                                        }
+                                        showDialog(
+                                            context: context,
+                                            builder: (childContext) {
+                                              return AlertDialog(
+                                                title: Text('Logging in'),
+                                                content: Container(
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Center(
+                                                        child:
+                                                            CircularProgressIndicator(),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Text('Please wait'),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                        loginBloc
+                                            .login(username, password)
+                                            .then((value) {
+                                          if (value) {
+                                            Navigator.pushReplacementNamed(
+                                                context, "/dashboard");
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showMaterialBanner(
+                                                    MaterialBanner(
+                                              backgroundColor:
+                                                  Colors.yellow[100],
+                                              actions: [
+                                                TextButton(
+                                                  child: Text("Close"),
+                                                  onPressed: () {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .clearMaterialBanners();
+                                                  },
+                                                )
+                                              ],
+                                              content:
+                                                  Text("Authetication Failed"),
+                                            ));
+                                            Future.delayed(
+                                                const Duration(seconds: 5),
+                                                ScaffoldMessenger.of(context)
+                                                    .clearMaterialBanners);
+                                          }
+                                        });
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),

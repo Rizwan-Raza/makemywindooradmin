@@ -43,17 +43,17 @@ class _DashboardState extends State<Dashboard> {
                     children: [
                       InfoCard(
                           icon: 'assets/imgs/create_product.png',
-                          label: 'Create Products',
+                          label: 'Create Product',
                           amount: '\1200',
                           onpressedFun: () {
-                            navigateToFun(context, 'createProduct');
+                            navigateToFun(context, 'create-product');
                           }),
                       InfoCard(
                           icon: 'assets/imgs/my_products.png',
                           label: 'My Products',
                           amount: '\1500',
                           onpressedFun: () {
-                            navigateToFun(context, 'myProducts');
+                            navigateToFun(context, 'my-products');
                           }),
                       InfoCard(
                           icon: 'assets/imgs/orders.png',

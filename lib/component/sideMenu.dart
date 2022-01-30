@@ -51,7 +51,7 @@ class SideMenu extends StatelessWidget {
                     color: AppColors.iconGray,
                   ),
                   onPressed: () {
-                    navigateToFunSideMenu(context, 'createProduct');
+                    navigateToFunSideMenu(context, 'create-product');
                   }),
               IconButton(
                   iconSize: 30,
@@ -61,7 +61,7 @@ class SideMenu extends StatelessWidget {
                     color: AppColors.iconGray,
                   ),
                   onPressed: () {
-                    navigateToFunSideMenu(context, 'myProducts');
+                    navigateToFunSideMenu(context, 'my-products');
                   }),
               IconButton(
                   iconSize: 30,

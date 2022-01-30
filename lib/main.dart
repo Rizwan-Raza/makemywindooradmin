@@ -52,9 +52,9 @@ class MyApp extends StatelessWidget {
                     loginServices.isLogin ? Dashboard() : LoginScreen(),
                 "/dashboard": (context) =>
                     loginServices.isLogin ? Dashboard() : LoginScreen(),
-                "/createProduct": (context) =>
+                "/create-product": (context) =>
                     loginServices.isLogin ? CreateProduct() : LoginScreen(),
-                "/myProducts": (context) =>
+                "/my-products": (context) =>
                     loginServices.isLogin ? MyProducts() : LoginScreen(),
                 "/orders": (context) => Provider.of<Login>(context).isLogin
                     ? CustomerOrders()
