@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,7 +8,7 @@ class Login {
   bool _isLogin = false;
   late SharedPreferences prefs;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  late Map userData = {"username": "admin"};
   Future<bool> init() async {
     prefs = await SharedPreferences.getInstance();
     _isLogin = prefs.getBool("isLogin") ?? false;
@@ -14,9 +16,15 @@ class Login {
   }
 
   Future<bool> login(String username, String password) async {
-    var doc = await _firestore.collection("admins").doc(username).get();
-    if (doc.exists && doc.data()!["password"] == password) {
+    var doc = await _firestore
+        .collection("admins")
+        .where("username", isEqualTo: username)
+        .get();
+    if (doc.docs.length > 0 && doc.docs.first["password"] == password) {
       _isLogin = true;
+      userData = doc.docs.first.data();
+      log("Login Success");
+      log(userData.toString());
       await prefs.setBool("isLogin", true);
     } else {
       _isLogin = false;
@@ -35,5 +43,12 @@ class Login {
   Future<void> logout() async {
     _isLogin = false;
     await prefs.setBool("isLogin", false);
+  }
+
+  Future<void> changePassword(String newPassword) async {
+    return await _firestore
+        .collection("admins")
+        .doc(userData["username"])
+        .update({"password": newPassword});
   }
 }

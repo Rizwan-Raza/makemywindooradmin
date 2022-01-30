@@ -226,7 +226,7 @@ class _CreateProductState extends State<CreateProduct> {
                       borderRadius:
                           BorderRadius.only(bottomLeft: Radius.circular(100)),
                       child: Image.asset(
-                        "assets/imgs/man.jpeg",
+                        "assets/imgs/picker.jpg",
                         height: SizeConfig.blockSizeVertical! * 100,
                         width: SizeConfig.blockSizeHorizontal! * 100,
                         fit: BoxFit.cover,

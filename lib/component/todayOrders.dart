@@ -32,7 +32,8 @@ class TodayOrders extends StatelessWidget {
                         subtitle: Text(project.projectDetails.customerName +
                             '\n' +
                             project.projectDetails.customerNumber),
-                        trailing: Text('₹ ' + project.totalCharge.toString()),
+                        trailing:
+                            Text('₹ ' + project.totalCharge.round().toString()),
                       ),
                     ),
                   ),

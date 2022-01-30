@@ -186,19 +186,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Image.asset(
-                                "assets/imgs/man.jpeg",
-                                height: 120,
+                                "assets/imgs/logo.png",
+                                height: 80,
                               ),
                               SizedBox(height: 32),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16),
-                                child: Text(
-                                  "Make My Windoor",
-                                  style: TextStyle(
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
+                              // Padding(
+                              //   padding: EdgeInsets.symmetric(vertical: 16),
+                              //   child: Text(
+                              //     "Make My Windoor",
+                              //     style: TextStyle(
+                              //         fontSize: 32,
+                              //         fontWeight: FontWeight.bold),
+                              //   ),
+                              // ),
                               Text(
                                 "Admin Panel",
                                 style: TextStyle(
@@ -217,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           return AlertDialog(
                                             title: Text("More info"),
                                             content: Text(
-                                              "This panel is specifically for admins, if you are not an admin then please close it and use the app instead. \nIf you are interested to enroll yourself as an admin for Be Marvellous. \nContact RexTerminous for it.",
+                                              "This panel is specifically for admins, if you are not an admin then please close it and use the app instead. \nIf you are interested to enroll yourself as an admin for Make My Indoor. \nContact Us for it from our app.",
                                             ),
                                           );
                                         });

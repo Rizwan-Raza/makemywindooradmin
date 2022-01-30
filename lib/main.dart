@@ -12,8 +12,10 @@ import 'package:makemywindoor_admin/services/productService.dart';
 import 'package:makemywindoor_admin/services/project_service.dart';
 import 'package:makemywindoor_admin/style/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
+  setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

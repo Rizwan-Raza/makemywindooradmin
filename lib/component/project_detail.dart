@@ -67,14 +67,14 @@ class ProjectDetailsScreen extends StatelessWidget {
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const TextSpan(
-                            text: " in x ",
+                            text: " cms x ",
                           ),
                           TextSpan(
                             text: e.width.toString(),
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const TextSpan(
-                            text: " in = ",
+                            text: " cms = ",
                           ),
                           TextSpan(
                             text: e.esft.toString(),
@@ -96,7 +96,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                     const Spacer(),
                     const Text(" = "),
                     Text(
-                      (e.height * e.width * e.rate).toString(),
+                      (e.esft * e.rate).toString(),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -126,7 +126,7 @@ class ProjectDetailsScreen extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: Text(
-              "Total : " + project.totalCharge.toString(),
+              "Total : " + project.totalCharge.round().toString(),
               textAlign: TextAlign.right,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),

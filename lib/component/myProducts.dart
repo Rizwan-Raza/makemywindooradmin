@@ -32,7 +32,7 @@ class _MyProductsState extends State<MyProducts> {
                       DataColumn(label: Text('Product Description')),
                       DataColumn(label: Text('Product Type')),
                       DataColumn(label: Text('Product Price')),
-                      DataColumn(label: Text('Edit')),
+                      // DataColumn(label: Text('Edit')),
                       DataColumn(label: Text('Delete'))
                     ],
                     rows: snapshot.data!.docs.map((e) {
@@ -55,14 +55,14 @@ class _MyProductsState extends State<MyProducts> {
                         DataCell(Text(p.pDescription)),
                         DataCell(Text(p.pType)),
                         DataCell(Text('₹ ' + p.pPrice)),
-                        DataCell(IconButton(
-                          splashRadius: 25,
-                          onPressed: () {},
-                          icon: Icon(
-                            LineIcons.edit,
-                            color: Colors.grey,
-                          ),
-                        )),
+                        // DataCell(IconButton(
+                        //   splashRadius: 25,
+                        //   onPressed: () {},
+                        //   icon: Icon(
+                        //     LineIcons.edit,
+                        //     color: Colors.grey,
+                        //   ),
+                        // )),
                         DataCell(IconButton(
                           splashRadius: 25,
                           onPressed: () {
