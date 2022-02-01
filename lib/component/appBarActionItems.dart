@@ -51,18 +51,21 @@ class AppBarActionItems extends StatelessWidget {
         //   // Icon(LineIcons.angleDown, color: Colors.black)
         // ]),
         PopupMenuButton(
-            child: Row(children: [
-              CircleAvatar(
-                radius: 17,
-                backgroundImage: AssetImage(
-                  "assets/imgs/man.jpeg",
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(children: [
+                CircleAvatar(
+                  radius: 17,
+                  backgroundImage: AssetImage(
+                    "assets/imgs/man.jpeg",
+                  ),
                 ),
-              ),
-              SizedBox(width: 8),
-              Text(Provider.of<Login>(context).userData['username']),
-              SizedBox(width: 8),
-              Icon(LineIcons.angleDown, color: Colors.black)
-            ]),
+                SizedBox(width: 8),
+                Text(Provider.of<Login>(context).userData['username']),
+                SizedBox(width: 8),
+                Icon(LineIcons.angleDown, color: Colors.black)
+              ]),
+            ),
             // icon: Icon(LineIcons.angleDown),
             onSelected: (value) {
               switch (value) {

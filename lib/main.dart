@@ -62,7 +62,9 @@ class MyApp extends StatelessWidget {
               },
               theme: ThemeData(
                   primarySwatch: Colors.blue,
+                  fontFamily: 'Poppins',
                   scaffoldBackgroundColor: AppColors.primaryBg),
+
               // home: Dashboard(),
             );
           } else {

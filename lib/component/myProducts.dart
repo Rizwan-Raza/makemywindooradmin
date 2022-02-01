@@ -54,7 +54,10 @@ class _MyProductsState extends State<MyProducts> {
                         DataCell(Text(p.pName)),
                         DataCell(Text(p.pDescription)),
                         DataCell(Text(p.pType)),
-                        DataCell(Text('₹ ' + p.pPrice)),
+                        DataCell(Row(children: [
+                          Text('₹ ', style: TextStyle(fontFamily: 'Arial')),
+                          Text(p.pPrice)
+                        ])),
                         // DataCell(IconButton(
                         //   splashRadius: 25,
                         //   onPressed: () {},

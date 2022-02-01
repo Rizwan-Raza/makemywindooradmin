@@ -62,7 +62,14 @@ class _CustomerOrdersState extends State<CustomerOrders> {
                     DataCell(Text(p.projectDetails.projectName)),
                     DataCell(Text(p.projectDetails.customerName)),
                     DataCell(Text(p.projectDetails.customerNumber)),
-                    DataCell(Text('₹ ' + p.totalCharge.round().toString())),
+                    DataCell(Row(
+                      children: [
+                        Text('₹ ', style: TextStyle(fontFamily: 'Arial')),
+                        Text(
+                          p.totalCharge.round().toString(),
+                        ),
+                      ],
+                    )),
                     DataCell(
                       DropdownButtonFormField<String>(
                           decoration: InputDecoration(

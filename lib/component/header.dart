@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:makemywindoor_admin/config/responsive.dart';
 import 'package:makemywindoor_admin/style/colors.dart';
 import 'package:makemywindoor_admin/style/style.dart';
 
