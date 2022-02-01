@@ -245,7 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           return AlertDialog(
                                             title: Text("More info"),
                                             content: Text(
-                                              "This panel is specifically for admins, if you are not an admin then please close it and use the app instead. \nIf you are interested to enroll yourself as an admin for Make My Indoor. \nContact Us for it from our app.",
+                                              "This panel is specifically for admins, if you are not an admin then please close it and use the app instead. \nIf you are interested to enroll yourself as an admin for Make My Windoor. \nContact Us for it from our app.",
                                             ),
                                           );
                                         });
