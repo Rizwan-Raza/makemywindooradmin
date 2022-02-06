@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -21,11 +20,10 @@ class CreateProduct extends StatefulWidget {
 
 class _CreateProductState extends State<CreateProduct> {
   GlobalKey<FormState> createProductKey = new GlobalKey<FormState>();
-  Product? product;
+  Product product = Product.empty();
   @override
   void initState() {
     super.initState();
-    product = new Product.empty();
   }
 
   int _isChecked = -1;
@@ -43,7 +41,7 @@ class _CreateProductState extends State<CreateProduct> {
           key: createProductKey,
           child: Column(
             children: <Widget>[
-              HeaderContainer("Choose Image", product!),
+              HeaderContainer("Choose Image"),
               Expanded(
                 // flex: 1,
                 child: Container(
@@ -114,10 +112,11 @@ class _CreateProductState extends State<CreateProduct> {
                                 createProductKey.currentState!.save();
                                 if (_isChecked != -1) {
                                   log('postProduct ========save done=====');
-                                  product!.pType = productType[_isChecked];
+                                  product.type = productType[_isChecked];
 
                                   if (mediaInfoGlobal != null) {
                                     showDialog(
+                                        barrierDismissible: false,
                                         context: context,
                                         builder: (context) {
                                           return AlertDialog(
@@ -139,7 +138,7 @@ class _CreateProductState extends State<CreateProduct> {
                                             ),
                                           );
                                         });
-                                    uploadFile(mediaInfoGlobal!, product!.pType,
+                                    uploadFile(mediaInfoGlobal!, product.type,
                                         context);
                                   } else {
                                     ScaffoldMessenger.of(context)
@@ -193,7 +192,7 @@ class _CreateProductState extends State<CreateProduct> {
   }
 
   // ignore: non_constant_identifier_names
-  Widget HeaderContainer(String text, Product product) {
+  Widget HeaderContainer(String text) {
     return Container(
       height: SizeConfig.blockSizeVertical! * 40,
       decoration: BoxDecoration(
@@ -271,7 +270,7 @@ class _CreateProductState extends State<CreateProduct> {
       // var finalStorageURL = ref + '/' + productType;
       // log('path=======llll' + finalStorageURL.toString());
       Reference storageReference =
-          FirebaseStorage.instance.ref(productType).child(mediaInfo.fileName!);
+          FirebaseStorage.instance.ref(productType).child(product.productId);
 
       storageReference
           .putData(mediaInfo.data!, SettableMetadata(contentType: "image/png"))
@@ -279,16 +278,19 @@ class _CreateProductState extends State<CreateProduct> {
                 Future.delayed(Duration(seconds: 1)).then((value) => {
                       snapshot.ref.getDownloadURL().then((uri) {
                         // imageUri = uri;
-                        // product!.pImageURL = imageUri.toString();
-                        product!.pImageURL = uri;
+                        // product.imageUrl = imageUri.toString();
+                        product.imageUrl = uri;
                         ProductService productService =
                             Provider.of<ProductService>(context, listen: false);
                         productService
-                            .postProduct(product!.toMap())
+                            .postProduct(product.toMap())
                             .then((value) {
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Product Created Successfully'),
+                            content: Text(
+                              'Product Created Successfully',
+                              style: TextStyle(fontFamily: "Poppins"),
+                            ),
                             backgroundColor: Colors.green,
                           ));
                           createProductKey.currentState!.reset();
@@ -326,17 +328,17 @@ class _CreateProductState extends State<CreateProduct> {
   onSaved(int index, String value) {
     switch (index) {
       case 1:
-        product!.pName = value;
+        product.name = value;
 
         break;
       case 2:
-        product!.pDescription = value;
+        product.description = value;
         break;
       case 3:
-        product!.pPrice = value;
+        product.price = value;
 
-        product!.pProductId =
-            product!.pName + "_" + math.Random().nextInt(500000).toString();
+        product.productId = DateTime.now().millisecondsSinceEpoch.toString();
+
         break;
     }
   }
@@ -346,10 +348,10 @@ Color orangeColors = Color(0xffFFBF00);
 Color orangeLightColors = Color(0xffFFBF00);
 
 class ButtonWidget extends StatelessWidget {
-  String? btnText = "";
-  var onClick;
+  final String btnText;
+  final onClick;
 
-  ButtonWidget({this.btnText, this.onClick});
+  ButtonWidget({required this.btnText, required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -369,7 +371,7 @@ class ButtonWidget extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: Text(
-          btnText!,
+          btnText,
           style: TextStyle(
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
         ),

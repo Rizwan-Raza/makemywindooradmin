@@ -1,55 +1,60 @@
 class Product {
-  String pName;
-  String pPrice;
-  String pDescription;
-  String pImageURL;
-  String pProductId;
-  String pType;
+  String name;
+  String price;
+  String description;
+  String imageUrl;
+  String productId;
+  String type;
+  DateTime createdOn;
 
   Product({
-    required this.pName,
-    required this.pPrice,
-    required this.pDescription,
-    required this.pImageURL,
-    required this.pProductId,
-    required this.pType,
+    required this.name,
+    required this.price,
+    required this.description,
+    required this.imageUrl,
+    required this.productId,
+    required this.type,
+    required this.createdOn,
   });
 
   factory Product.empty() {
     return Product(
-      pName: '',
-      pPrice: '',
-      pDescription: '',
-      pImageURL: '',
-      pProductId: '',
-      pType: '',
+      name: '',
+      price: '',
+      description: '',
+      imageUrl: '',
+      productId: '',
+      type: '',
+      createdOn: DateTime.now(),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'pName': pName,
-      'pPrice': pPrice,
-      'pDescription': pDescription,
-      'pImageURL': pImageURL,
-      'pProductId': pProductId,
-      'pType': pType,
+      'name': name,
+      'price': price,
+      'description': description,
+      'imageUrl': imageUrl,
+      'productId': productId,
+      'type': type,
+      'createdOn': createdOn.toIso8601String(),
     };
   }
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
-      pName: map['pName'],
-      pPrice: map['pPrice'],
-      pDescription: map['pDescription'],
-      pImageURL: map['pImageURL'],
-      pProductId: map['pProductId'],
-      pType: map['pType'],
+      name: map['name'],
+      price: map['price'],
+      description: map['description'],
+      imageUrl: map['imageUrl'],
+      productId: map['productId'],
+      type: map['type'],
+      createdOn: DateTime.parse(map['createdOn']),
     );
   }
 
   @override
   String toString() {
-    return 'Product{pName: $pName, pPrice: $pPrice, pDescription: $pDescription, pImageURL: $pImageURL, pProductId: $pProductId, pType: $pType}';
+    return 'Product{name: $name, price: $price, description: $description, imageUrl: $imageUrl, productId: $productId, type: $type, createdOn: $createdOn}';
   }
 }

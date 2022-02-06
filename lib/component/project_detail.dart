@@ -19,6 +19,15 @@ class ProjectDetailsScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          Text(
+              project.createdBy.name +
+                  (project.createdBy.company != null
+                      ? " (" + project.createdBy.company! + ") "
+                      : ""),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          Text(project.createdBy.phone),
+          Text(project.createdBy.email),
+          Divider(height: 24.0),
           Text(project.projectDetails.projectName,
               textAlign: TextAlign.center,
               style:

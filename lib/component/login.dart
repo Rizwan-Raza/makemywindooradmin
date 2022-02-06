@@ -136,6 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           return;
                                         }
                                         showDialog(
+                                            barrierDismissible: false,
                                             context: context,
                                             builder: (childContext) {
                                               return AlertDialog(

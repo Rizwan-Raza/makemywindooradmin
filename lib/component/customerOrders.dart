@@ -36,6 +36,7 @@ class _CustomerOrdersState extends State<CustomerOrders> {
                 columns: [
                   // DataColumn(label: Text('Product Image')),
                   DataColumn(label: Text('Project Name')),
+                  DataColumn(label: Text('Created By')),
                   DataColumn(label: Text('Customer Name')),
                   DataColumn(label: Text('Customer Phone')),
                   DataColumn(label: Text('Project Charges')),
@@ -60,6 +61,7 @@ class _CustomerOrdersState extends State<CustomerOrders> {
                     //       shape: BoxShape.circle),
                     // )),
                     DataCell(Text(p.projectDetails.projectName)),
+                    DataCell(Text(p.createdBy.name)),
                     DataCell(Text(p.projectDetails.customerName)),
                     DataCell(Text(p.projectDetails.customerNumber)),
                     DataCell(Row(
@@ -112,6 +114,7 @@ class _CustomerOrdersState extends State<CustomerOrders> {
                                         onPressed: () {
                                           Navigator.of(parentContext).pop();
                                           showDialog(
+                                              barrierDismissible: false,
                                               context: context,
                                               builder: (childContext) {
                                                 return AlertDialog(
@@ -174,6 +177,7 @@ class _CustomerOrdersState extends State<CustomerOrders> {
                                     onPressed: () {
                                       Navigator.pop(innerContext);
                                       showDialog(
+                                          barrierDismissible: false,
                                           context: context,
                                           builder: (childContext) {
                                             return AlertDialog(

@@ -24,6 +24,10 @@ class Home extends StatelessWidget {
                     _drawerKey.currentState!.openDrawer();
                   },
                   icon: Icon(Icons.menu, color: AppColors.black)),
+              title: Text(
+                'Make My Windoor',
+                style: TextStyle(color: AppColors.black),
+              ),
               actions: [
                 AppBarActionItems(),
               ],

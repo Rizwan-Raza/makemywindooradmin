@@ -61,7 +61,10 @@ class AppBarActionItems extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 8),
-                Text(Provider.of<Login>(context).userData['username']),
+                Text(
+                  Provider.of<Login>(context).userData['username'],
+                  style: TextStyle(color: Colors.black),
+                ),
                 SizedBox(width: 8),
                 Icon(LineIcons.angleDown, color: Colors.black)
               ]),
@@ -94,6 +97,7 @@ class AppBarActionItems extends StatelessWidget {
                                 if (_newPassword.text.isEmpty) return;
                                 Navigator.of(iContext).pop();
                                 showDialog(
+                                    barrierDismissible: false,
                                     context: context,
                                     builder: (childContext) {
                                       return AlertDialog(

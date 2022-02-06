@@ -45,18 +45,18 @@ class _MyProductsState extends State<MyProducts> {
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                   image: NetworkImage(
-                                    p.pImageURL,
+                                    p.imageUrl,
                                   ),
                                   fit: BoxFit.cover),
                               color: Colors.grey[200],
                               shape: BoxShape.circle),
                         )),
-                        DataCell(Text(p.pName)),
-                        DataCell(Text(p.pDescription)),
-                        DataCell(Text(p.pType)),
+                        DataCell(Text(p.name)),
+                        DataCell(Text(p.description)),
+                        DataCell(Text(p.type)),
                         DataCell(Row(children: [
                           Text('₹ ', style: TextStyle(fontFamily: 'Arial')),
-                          Text(p.pPrice)
+                          Text(p.price)
                         ])),
                         // DataCell(IconButton(
                         //   splashRadius: 25,
@@ -82,6 +82,7 @@ class _MyProductsState extends State<MyProducts> {
                                         onPressed: () {
                                           Navigator.pop(innerContext);
                                           showDialog(
+                                              barrierDismissible: false,
                                               context: context,
                                               builder: (childContext) {
                                                 return AlertDialog(
@@ -107,7 +108,8 @@ class _MyProductsState extends State<MyProducts> {
                                               });
                                           context
                                               .read<ProductService>()
-                                              .deleteProduct(p.pProductId)
+                                              .deleteProduct(
+                                                  p.productId, p.type)
                                               .then((value) =>
                                                   Navigator.pop(context));
                                         },
