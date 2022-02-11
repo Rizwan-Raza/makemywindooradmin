@@ -6,6 +6,7 @@ import 'package:makemywindoor_admin/component/dashboard.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:makemywindoor_admin/component/login.dart';
 import 'package:makemywindoor_admin/component/myProducts.dart';
+import 'package:makemywindoor_admin/component/users.dart';
 import 'package:makemywindoor_admin/firebase_options.dart';
 import 'package:makemywindoor_admin/services/auth.dart';
 import 'package:makemywindoor_admin/services/productService.dart';
@@ -56,9 +57,10 @@ class MyApp extends StatelessWidget {
                     loginServices.isLogin ? CreateProduct() : LoginScreen(),
                 "/my-products": (context) =>
                     loginServices.isLogin ? MyProducts() : LoginScreen(),
-                "/orders": (context) => Provider.of<Login>(context).isLogin
-                    ? CustomerOrders()
-                    : LoginScreen(),
+                "/orders": (context) =>
+                    loginServices.isLogin ? CustomerOrders() : LoginScreen(),
+                "/users": (context) =>
+                    loginServices.isLogin ? Users() : LoginScreen(),
               },
               theme: ThemeData(
                   primarySwatch: Colors.blue,

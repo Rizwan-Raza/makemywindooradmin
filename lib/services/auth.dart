@@ -51,4 +51,16 @@ class Login {
         .doc(userData["username"])
         .update({"password": newPassword});
   }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUsers() {
+    return _firestore.collection("users").orderBy("name").snapshots();
+  }
+
+  deleteUser(String phone) {
+    return _firestore.collection("users").doc(phone).delete();
+  }
+
+  updateUser(String phone, Map<String, dynamic> data) {
+    return _firestore.collection("users").doc(phone).update(data);
+  }
 }

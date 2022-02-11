@@ -7,7 +7,10 @@ class ProjectServices {
     if (limit != 0) {
       return _firestore.collection('projects').limit(limit).snapshots();
     }
-    return _firestore.collection('projects').snapshots();
+    return _firestore
+        .collection('projects')
+        .orderBy("createdOn", descending: true)
+        .snapshots();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getTodaysProjects() {
@@ -16,6 +19,7 @@ class ProjectServices {
         .where("createdOn",
             isGreaterThan:
                 DateTime.now().subtract(Duration(days: 1)).toIso8601String())
+        .orderBy("createdOn", descending: true)
         .snapshots();
   }
 
@@ -23,6 +27,7 @@ class ProjectServices {
     return _firestore
         .collection('projects')
         .where('createdBy.phone', isEqualTo: phoneNumber)
+        .orderBy("createdOn", descending: true)
         .snapshots();
   }
 

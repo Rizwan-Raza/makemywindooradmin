@@ -62,13 +62,13 @@ class _DashboardState extends State<Dashboard> {
                           onpressedFun: () {
                             navigateToFun(context, 'orders');
                           }),
-                      // InfoCard(
-                      //     icon: 'assets/imgs/orders.png',
-                      //     label: 'Others',
-                      //     amount: '\1500',
-                      //     onpressedFun: () {
-                      //       navigateToFun(context, 'orders');
-                      //     }),
+                      InfoCard(
+                          icon: 'assets/imgs/user.png',
+                          label: 'Users',
+                          amount: '\1500',
+                          onpressedFun: () {
+                            navigateToFun(context, 'users');
+                          }),
                     ],
                   ),
                 ),

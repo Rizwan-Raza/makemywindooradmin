@@ -24,7 +24,7 @@ class InfoCard extends StatelessWidget {
         onpressedFun();
       },
       child: Container(
-        width: SizeConfig.screenWidth! * 0.225,
+        width: SizeConfig.screenWidth! / 6,
         constraints: BoxConstraints(
             minWidth: Responsive.isDesktop(context)
                 ? 200

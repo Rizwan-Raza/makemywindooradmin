@@ -73,6 +73,16 @@ class SideMenu extends StatelessWidget {
                   onPressed: () {
                     navigateToFunSideMenu(context, 'orders');
                   }),
+              IconButton(
+                  iconSize: 30,
+                  padding: EdgeInsets.symmetric(vertical: 30.0),
+                  icon: Image.asset(
+                    'assets/imgs/user.png',
+                    color: AppColors.iconGray,
+                  ),
+                  onPressed: () {
+                    navigateToFunSideMenu(context, 'users');
+                  }),
             ],
           ),
         ),
