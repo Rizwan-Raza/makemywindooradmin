@@ -31,7 +31,7 @@ class _UsersState extends State<Users> {
                         DataColumn(label: Text('Email')),
                         DataColumn(label: Text('Phone')),
                         DataColumn(label: Text('Company')),
-                        DataColumn(label: Text('Active')),
+                        // DataColumn(label: Text('Active')),
                         // DataColumn(label: Text('Edit')),
                         DataColumn(label: Text('Delete'))
                       ],
@@ -46,92 +46,92 @@ class _UsersState extends State<Users> {
                               DataCell(Text(u.email)),
                               DataCell(Text(u.phone)),
                               DataCell(Text(u.company ?? "NA")),
-                              DataCell(
-                                DropdownButtonFormField<String>(
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        fillColor: Colors.grey[300],
-                                        filled: true),
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text('Enabled'),
-                                        value: 'Enabled',
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text('Disabled'),
-                                        value: 'Disabled',
-                                      ),
-                                    ],
-                                    value: (u.disabled ?? false)
-                                        ? 'Disabled'
-                                        : 'Enabled',
-                                    icon: Icon(LineIcons.angleDown),
-                                    onChanged: (value) {
-                                      showDialog(
-                                          context: context,
-                                          builder: (parentContext) {
-                                            return AlertDialog(
-                                              title: Text('Are you sure?'),
-                                              content: Text(
-                                                  'Do you want to change the status of this user to $value?'),
-                                              actions: [
-                                                TextButton(
-                                                  child: Text('Cancel'),
-                                                  onPressed: () {
-                                                    Navigator.of(parentContext)
-                                                        .pop();
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  child: Text('Ok'),
-                                                  onPressed: () {
-                                                    Navigator.of(parentContext)
-                                                        .pop();
-                                                    showDialog(
-                                                        barrierDismissible:
-                                                            false,
-                                                        context: context,
-                                                        builder:
-                                                            (childContext) {
-                                                          return AlertDialog(
-                                                            title: Text(
-                                                                'Updating Status'),
-                                                            content: Container(
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                children: [
-                                                                  Center(
-                                                                    child:
-                                                                        CircularProgressIndicator(),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    height: 10,
-                                                                  ),
-                                                                  Text(
-                                                                      'Please wait'),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          );
-                                                        });
-                                                    context
-                                                        .read<Login>()
-                                                        .updateUser(u.phone, {
-                                                      "disabled":
-                                                          value == 'Disabled'
-                                                    }).then((value) =>
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop());
-                                                  },
-                                                )
-                                              ],
-                                            );
-                                          });
-                                    }),
-                              ),
+                              // DataCell(
+                              //   DropdownButtonFormField<String>(
+                              //       decoration: InputDecoration(
+                              //           border: InputBorder.none,
+                              //           fillColor: Colors.grey[300],
+                              //           filled: true),
+                              //       items: [
+                              //         DropdownMenuItem(
+                              //           child: Text('Enabled'),
+                              //           value: 'Enabled',
+                              //         ),
+                              //         DropdownMenuItem(
+                              //           child: Text('Disabled'),
+                              //           value: 'Disabled',
+                              //         ),
+                              //       ],
+                              //       value: (u.disabled ?? false)
+                              //           ? 'Disabled'
+                              //           : 'Enabled',
+                              //       icon: Icon(LineIcons.angleDown),
+                              //       onChanged: (value) {
+                              //         showDialog(
+                              //             context: context,
+                              //             builder: (parentContext) {
+                              //               return AlertDialog(
+                              //                 title: Text('Are you sure?'),
+                              //                 content: Text(
+                              //                     'Do you want to change the status of this user to $value?'),
+                              //                 actions: [
+                              //                   TextButton(
+                              //                     child: Text('Cancel'),
+                              //                     onPressed: () {
+                              //                       Navigator.of(parentContext)
+                              //                           .pop();
+                              //                     },
+                              //                   ),
+                              //                   TextButton(
+                              //                     child: Text('Ok'),
+                              //                     onPressed: () {
+                              //                       Navigator.of(parentContext)
+                              //                           .pop();
+                              //                       showDialog(
+                              //                           barrierDismissible:
+                              //                               false,
+                              //                           context: context,
+                              //                           builder:
+                              //                               (childContext) {
+                              //                             return AlertDialog(
+                              //                               title: Text(
+                              //                                   'Updating Status'),
+                              //                               content: Container(
+                              //                                 child: Column(
+                              //                                   mainAxisSize:
+                              //                                       MainAxisSize
+                              //                                           .min,
+                              //                                   children: [
+                              //                                     Center(
+                              //                                       child:
+                              //                                           CircularProgressIndicator(),
+                              //                                     ),
+                              //                                     SizedBox(
+                              //                                       height: 10,
+                              //                                     ),
+                              //                                     Text(
+                              //                                         'Please wait'),
+                              //                                   ],
+                              //                                 ),
+                              //                               ),
+                              //                             );
+                              //                           });
+                              //                       context
+                              //                           .read<Login>()
+                              //                           .updateUser(u.phone, {
+                              //                         "disabled":
+                              //                             value == 'Disabled'
+                              //                       }).then((value) =>
+                              //                               Navigator.of(
+                              //                                       context)
+                              //                                   .pop());
+                              //                     },
+                              //                   )
+                              //                 ],
+                              //               );
+                              //             });
+                              //       }),
+                              // ),
                               // DataCell(IconButton(
                               //   splashRadius: 25,
                               //   onPressed: () {},
