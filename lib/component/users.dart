@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:makemywindoor_admin/home.dart';
 import 'package:makemywindoor_admin/model/user.dart';
@@ -33,7 +34,7 @@ class _UsersState extends State<Users> {
                         DataColumn(label: Text('Company')),
                         // DataColumn(label: Text('Active')),
                         // DataColumn(label: Text('Edit')),
-                        DataColumn(label: Text('Delete'))
+                        DataColumn(label: Text('Actions'))
                       ],
                       rows: snapshot.data!.docs.map((e) {
                         User u = User.fromMap(e.data());
@@ -42,10 +43,13 @@ class _UsersState extends State<Users> {
                                 ? MaterialStateProperty.all(Colors.red[50])
                                 : null,
                             cells: [
-                              DataCell(Text(u.name)),
-                              DataCell(Text(u.email)),
-                              DataCell(Text(u.phone)),
-                              DataCell(Text(u.company ?? "NA")),
+                              DataCell(SelectableText(u.name)),
+                              DataCell(SelectableText(u.email)),
+                              DataCell(SelectableText(
+                                u.phone,
+                                maxLines: 1,
+                              )),
+                              DataCell(SelectableText(u.company ?? "NA")),
                               // DataCell(
                               //   DropdownButtonFormField<String>(
                               //       decoration: InputDecoration(
@@ -140,69 +144,114 @@ class _UsersState extends State<Users> {
                               //     color: Colors.grey,
                               //   ),
                               // )),
-                              DataCell(IconButton(
-                                splashRadius: 25,
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (innerContext) {
-                                        return AlertDialog(
-                                          title: Text('Are you sure?'),
-                                          content: Text(
-                                              'Do you want to delete this user?'),
-                                          actions: [
-                                            TextButton(
-                                              child: Text('Yes'),
-                                              onPressed: () {
-                                                Navigator.pop(innerContext);
-                                                showDialog(
-                                                    barrierDismissible: false,
-                                                    context: context,
-                                                    builder: (childContext) {
-                                                      return AlertDialog(
-                                                        title: Text(
-                                                            'Deleting ...'),
-                                                        content: Container(
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            children: [
-                                                              Center(
-                                                                child:
-                                                                    CircularProgressIndicator(),
+                              DataCell(Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        Clipboard.setData(ClipboardData(
+                                            text: u.name +
+                                                "\n" +
+                                                u.email +
+                                                "\n" +
+                                                u.phone +
+                                                (u.company != null
+                                                    ? ("\n" + u.company!)
+                                                    : "")));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                behavior:
+                                                    SnackBarBehavior.floating,
+                                                margin: EdgeInsets.only(
+                                                    bottom: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .height -
+                                                        100,
+                                                    right: 20,
+                                                    left: MediaQuery.of(context)
+                                                            .size
+                                                            .width -
+                                                        200),
+                                                dismissDirection:
+                                                    DismissDirection.horizontal,
+                                                content: Text(
+                                                    'Copied to clipboard')));
+                                      },
+                                      tooltip: "Copy Row",
+                                      splashRadius: 25,
+                                      icon: Icon(
+                                        LineIcons.copy,
+                                        color: Colors.blue,
+                                      )),
+                                  IconButton(
+                                    tooltip: "Delete",
+                                    splashRadius: 25,
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (innerContext) {
+                                            return AlertDialog(
+                                              title: Text('Are you sure?'),
+                                              content: Text(
+                                                  'Do you want to delete this user?'),
+                                              actions: [
+                                                TextButton(
+                                                  child: Text('Yes'),
+                                                  onPressed: () {
+                                                    Navigator.pop(innerContext);
+                                                    showDialog(
+                                                        barrierDismissible:
+                                                            false,
+                                                        context: context,
+                                                        builder:
+                                                            (childContext) {
+                                                          return AlertDialog(
+                                                            title: Text(
+                                                                'Deleting ...'),
+                                                            content: Container(
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 10,
+                                                                  ),
+                                                                  Text(
+                                                                      'deleting user ...')
+                                                                ],
                                                               ),
-                                                              SizedBox(
-                                                                height: 10,
-                                                              ),
-                                                              Text(
-                                                                  'deleting user ...')
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      );
-                                                    });
-                                                context
-                                                    .read<Login>()
-                                                    .deleteUser(u.phone)
-                                                    .then((value) =>
-                                                        Navigator.pop(context));
-                                              },
-                                            ),
-                                            TextButton(
-                                              child: Text('No'),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                            )
-                                          ],
-                                        );
-                                      });
-                                },
-                                icon: Icon(
-                                  LineIcons.trash,
-                                  color: Colors.red,
-                                ),
+                                                            ),
+                                                          );
+                                                        });
+                                                    context
+                                                        .read<Login>()
+                                                        .deleteUser(u.phone)
+                                                        .then((value) =>
+                                                            Navigator.pop(
+                                                                context));
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: Text('No'),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    },
+                                    icon: Icon(
+                                      LineIcons.trash,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
                               ))
                             ]);
                       }).toList());
